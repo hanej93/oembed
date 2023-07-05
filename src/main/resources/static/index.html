@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>OEmbed Example</title>
+</head>
+<body>
+<style>
+    .header {
+        padding: 25px;
+        background-color: #2EAAB7;
+    }
+    .header-title {
+        color: white;
+        display: flex;
+        justify-content: center;
+    }
+    .input-container {
+        display: flex;
+        align-items: center;
+        background-color: white;
+        font-weight: bold;
+        height: 40px;
+        padding: 12px;
+    }
+    .url-input {
+        flex-grow: 1;
+        font-weight: inherit;
+        font-size: 16px;
+        padding: 7px;
+        margin: 0px 7px 0 7px;
+        border: 0;
+    }
+    .url-btn {
+        background-color: #FFCD45;
+        font-weight: inherit;
+        border: 0;
+        width: 60px;
+        height: 35px;
+        border-radius: 3px;
+    }
+    .url-btn:hover {
+        cursor: pointer;
+    }
+</style>
+<div>
+  <div class="header">
+    <h1 class="header-title">oEmbed Test</h1>
+    <div class="input-container">
+      <div>체인</div>
+      <input class="url-input" type="text" placeholder="url을 입력하세요."/>
+      <button onclick="fetchOEmbedData()" class="url-btn">확인</button>
+    </div>
+  </div>
+  <style>
+    .oembed-title{
+        display: flex;
+        padding: 15px;
+        margin: 5px 0 5px 0;
+    }
+    .title-header {
+        min-width: 200px;
+
+    }
+    .title-name {
+
+    }
+    .oembed-bottom {
+        background-color: #F1F1F1;
+        padding: 20px;
+    }
+    .oembed-table-container {
+        background-color: white;
+        padding: 30px;
+        border: 1px solid #d4d4d4;
+        border-radius: 3px;
+        box-shadow: 1px 1px 1px 1px #d4d4d4;
+    }
+    .oembed-row {
+        display: flex;
+        padding: 15px;
+    }
+    .oembed-row:nth-child(even) {
+        background-color: #F1F1F1;
+    }
+    .oembed-th {
+        min-width: 200px;
+        word-break: break-all;
+        text-wrap: balance;
+    }
+  </style>
+  <div class="oembed-container">
+
+    <div class="oembed-bottom">
+      <div class="oembed-table-container">
+        <div class="oembed-title">
+          <div class="title-header">title</div>
+          <div class="title-name">제목 입니다.</div>
+        </div>
+        <div class="oembed-table">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
