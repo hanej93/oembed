@@ -4,14 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.oembed.dto.OEmbedResponse;
-import com.example.oembed.exception.CustomException;
 import com.example.oembed.exception.NoMatchingSchemeException;
 import com.example.oembed.exception.NoOEmbedProviderException;
 import com.example.oembed.exception.UrlNotFoundException;
