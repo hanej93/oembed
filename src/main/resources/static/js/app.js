@@ -32,6 +32,8 @@ function createOEmbedField(data) {
                 let oEmbedField = `${key}<br/>(${dimensions})`;
                 let _img = `<img src='${data[key]}'>`;
                 object[oEmbedField] = _img;
+            } else if (key == 'title') {
+                // 타이틀은 별도로 표기
             } else {
                 object[key] = convertToLink(data[key]);
             }
