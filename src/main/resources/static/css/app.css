@@ -1,0 +1,15 @@
+.header { padding: 25px; background-color: #2EAAB7; }
+.header .header-title { color: white; display: flex; justify-content: center; }
+.header .input-container { display: flex; align-items: center; background-color: white; font-weight: bold; height: 40px; padding: 12px 20px; }
+.header .input-container .url-input { flex-grow: 1; font-weight: inherit; font-size: 16px; padding: 7px; margin: 0px 7px 0 7px; border: 0; }
+.header .input-container .url-btn { background-color: #FFCD45; font-weight: inherit; border: 0; width: 60px; height: 35px; border-radius: 3px; }
+.header .input-container .url-btn:hover { cursor: pointer; }
+
+.oembed-bottom { background-color: #F1F1F1; padding: 20px; }
+.oembed-bottom .oembed-table-container { background-color: white; padding: 30px; border: 1px solid #d4d4d4; border-radius: 3px; box-shadow: 1px 1px 1px 1px #d4d4d4; }
+.oembed-bottom .oembed-table-container .oembed-title { display: flex; padding: 15px; margin: 5px 0 5px 0; }
+.oembed-bottom .oembed-table-container .oembed-title .title-header { min-width: 200px; }
+.oembed-bottom .oembed-table-container .oembed-title .title-name { font-weight: bold;}
+.oembed-bottom .oembed-table-container .oembed-table .oembed-row { display: flex; padding: 15px; }
+.oembed-bottom .oembed-table-container .oembed-table .oembed-row:nth-child(even) { background-color: #F1F1F1; }
+.oembed-bottom .oembed-table-container .oembed-table .oembed-row .oembed-th { min-width: 200px; word-break: break-all; text-wrap: balance; }

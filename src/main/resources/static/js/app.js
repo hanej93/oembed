@@ -10,44 +10,77 @@ function fetchOEmbedData() {
             return response.json();
         })
         .then(data => {
-            let object = {};
-
-            for (let key in data) {
-                if(data.hasOwnProperty(key) && data[key] != null) {
-                    if (key == 'html') {
-                        let embedField = `${key}<br/>(${data.width}` + (data.height ? `/${data.height})` : ')');
-                        object[embedField] = data[key];
-                    } else if (key == 'thumbnail_url') {
-                        let embedField = `${key}<br/>(${data.thumbnail_width}` + (data.thumbnail_height ? `/${data.thumbnail_height})` : ')');
-                        let _img = `<img src='${data[key]}'>`;
-                        object[embedField] = _img;
-                    } else {
-                        object[key] = convertToLink(data[key]);
-                    }
-                }
-            }
-
-            let _table = '';
-            for (let key in object) {
-                _table += '<div class="oembed-row">';
-                _table += '<div class="oembed-th">' + key + '</div>';
-                _table += '<div class="oembed-td">' + object[key] + '</div>';
-                _table += '</div>';
-            }
-
-            document.querySelector(".oembed-table").innerHTML = _table;
-
-            console.log(JSON.stringify(object));
-            document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+            renderOEmbedTitle(data);
+            let object = createOEmbedField(data);
+            renderHTMLTable(object);
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
 }
 
+function createOEmbedField(data) {
+    let object = {};
+
+    for (let key in data) {
+        if (data.hasOwnProperty(key) && data[key] != null) {
+            if (key == 'html') {
+                let dimensions = `${data.width}` + `${data.height ? '/' + data.height : ''}`;
+                let oEmbedField = `${key}<br/>(${dimensions})`;
+                object[oEmbedField] = data[key];
+            } else if (key == 'thumbnail_url') {
+                let dimensions = `${data.thumbnail_width}` + `${data.thumbnail_height ? '/' + data.thumbnail_height : ''}`;
+                let oEmbedField = `${key}<br/>(${dimensions})`;
+                let _img = `<img src='${data[key]}'>`;
+                object[oEmbedField] = _img;
+            } else {
+                object[key] = convertToLink(data[key]);
+            }
+        }
+    }
+    return object;
+}
+
 function convertToLink(text) {
-    let urlRegex = /(https?:\/\/[^\s]+)/g;
+    let urlRegex = /(https?:\/\/\S+)/g;
     return text.replace(urlRegex, function(url) {
         return '<a href="' + url + '">' + url + '</a>';
     });
+}
+
+function renderOEmbedTitle(data) {
+    let _oembedTitle = document.querySelector('.oembed-title');
+    _oembedTitle.innerHTML = '';
+
+    let _titleHeader = document.createElement('div');
+    _titleHeader.className = 'title-header';
+    _titleHeader.textContent = 'title';
+    _oembedTitle.appendChild(_titleHeader);
+
+    let _titleName = document.createElement('div');
+    _titleName.className = 'title-name';
+    _titleName.textContent = data.title;
+    _oembedTitle.appendChild(_titleName);
+}
+
+function renderHTMLTable(object) {
+    let _table = document.querySelector('.oembed-table');
+    _table.innerHTML = '';
+
+    for (let key in object) {
+        let _row = document.createElement('div');
+        _row.className = 'oembed-row';
+
+        let _th = document.createElement('div');
+        _th.className = 'oembed-th';
+        _th.innerHTML = key;
+        _row.appendChild(_th);
+
+        let _td = document.createElement('div');
+        _td.className = 'oembed-td';
+        _td.innerHTML = object[key];
+        _row.appendChild(_td);
+
+        _table.appendChild(_row);
+    }
 }
