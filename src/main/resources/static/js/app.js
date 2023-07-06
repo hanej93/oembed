@@ -1,22 +1,21 @@
-function fetchOEmbedData() {
+async function fetchOEmbedData() {
     let urlParam = document.querySelector('.url-input').value;
 
-    const url = 'http://localhost:8080/oembed?url=' + urlParam;
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            renderOEmbedTitle(data);
-            let object = createOEmbedField(data);
-            renderHTMLTable(object);
-        })
-        .catch(error => {
-            console.error('There has been a problem with your fetch operation:', error);
-        });
+    const url = `http://localhost:8080/oembed?url=${urlParam}`;
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message);
+        }
+
+        renderOEmbedTitle(data);
+        let object = createOEmbedField(data);
+        renderHTMLTable(object);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 function createOEmbedField(data) {

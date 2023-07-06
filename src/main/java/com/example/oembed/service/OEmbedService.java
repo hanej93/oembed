@@ -4,11 +4,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.example.oembed.dto.OEmbedResponse;
+import com.example.oembed.exception.CustomException;
+import com.example.oembed.exception.NoMatchingSchemeException;
+import com.example.oembed.exception.NoOEmbedProviderException;
+import com.example.oembed.exception.UrlNotFoundException;
 import com.example.oembed.provider.OEmbedProvider;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +36,9 @@ public class OEmbedService {
 	public Mono<OEmbedResponse> getOEmbedResponse(String requestUrl) {
 		String trimmedRequestUrl = requestUrl.trim();
 		String oEmbedUrl = findOEmbedUrl(trimmedRequestUrl)
-			.orElseThrow(() -> new RuntimeException("No oEmbed provider available for " + requestUrl));
+			.orElseThrow(() -> new NoOEmbedProviderException(requestUrl));
 
 		oEmbedUrl = replaceFormatInUrl(oEmbedUrl);
-
-		log.info("requestUrl = " + requestUrl);
-		log.info("oEmbedUrl = " + oEmbedUrl);
 
 		return fetchOEmbedData(oEmbedUrl, requestUrl);
 	}
@@ -47,7 +50,7 @@ public class OEmbedService {
 				.anyMatch(scheme -> matchPattern(scheme, url)))
 			.map(OEmbedProvider.Endpoint::getUrl)
 			.findFirst()
-			.orElseThrow(() -> new RuntimeException("No matching scheme found for " + url));
+			.orElseThrow(() -> new NoMatchingSchemeException(url));
 		return Optional.of(embedUrl);
 	}
 
@@ -65,6 +68,7 @@ public class OEmbedService {
 		return webClient.get()
 			.uri(builtUri)
 			.retrieve()
+			.onStatus(HttpStatusCode::is4xxClientError, clientResponse -> Mono.error(new UrlNotFoundException(url)))
 			.bodyToMono(OEmbedResponse.class);
 	}
 
